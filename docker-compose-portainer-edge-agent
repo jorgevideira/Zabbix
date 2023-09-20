@@ -3,6 +3,7 @@ version: "3"
 services:
   portainer_edge_agent:
     image: portainer/agent
+    container_name: portainer_agent
     command: -H unix:///var/run/docker.sock
     restart: always
     volumes:
