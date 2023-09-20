@@ -1,0 +1,42 @@
+version: "5.0"
+services:
+    zabbix-proxy-v6:
+        image: zabbix/zabbix-proxy-sqlite3:alpine-6.0.19
+        container_name: zabbix-proxy
+        hostname: proxy
+        ports:
+          - 10051:10051
+        cap_add: ['NET_ADMIN']
+        environment:
+          # - LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/odbc:$LD_LIBRARY_PATH
+            - ZBX_HOSTNAME=hostname-do-proxy
+            - ZBX_SERVER_HOST=endereço-do-zabbix
+            - ZBX_DEBUGLEVEL=3
+            - ZBX_TIMEOUT=30
+            - ZBX_PROXYLOCALBUFFER=1
+            - ZBX_PROXYOFFLINEBUFFER=2
+            - ZBX_CONFIGFREQUENCY=600
+            - ZBX_STARTPOLLERS=15
+            - ZBX_STARTPOLLERSUNREACHABLE=5
+            - ZBX_STARTTRAPPERS=15
+            - ZBX_STARTPINGERS=2
+            - ZBX_CACHESIZE=16M
+            - ZBX_HISTORYCACHESIZE=32M
+            - ZBX_HISTORYINDEXCACHESIZE=8M
+            - ZBX_STARTVMWARECOLLECTORS=1
+            - ZBX_VMWAREFREQUENCY=60
+            - ZBX_VMWAREPERFFREQUENCY=60
+            - ZBX_VMWARECACHESIZE=8M
+            - ZBX_VMWARETIMEOUT=10
+            #- TNS_ADMIN=/usr/lib/oracle/12.1/client64/network/admin
+            - ZBX_ENABLEREMOTECOMMANDS=1
+            #- ZBX_TLSCONNECT=$ZBX_TLSCONNECT
+            #- ZBX_TLSPSKIDENTITY=identy-proxy
+            #- ZBX_TLSPSKFILE=tls.psk
+        volumes:
+###         - /usr/lib/oracle/12.1/client64/network/admin/tnsnames.ora:/usr/lib/oracle/12.1/client64/network/admin/tnsnames.ora
+            - /etc/odbc.ini:/etc/odbc.ini
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/hosts:/etc/hosts
+        restart: always
