@@ -1,12 +1,10 @@
-versão: "3"
+version: "3"
 
-Serviços:
+services:
   portainer_edge_agent:
     image: portainer/agent
     command: -H unix:///var/run/docker.sock
     restart: always
-    ports:
-      - "8000:8000"
     volumes:
       - /:/host
       - /var/lib/docker/volumes:/var/lib/docker/volumes
